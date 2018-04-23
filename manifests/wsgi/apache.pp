@@ -241,10 +241,11 @@ class horizon::wsgi::apache (
     $default_vhost_conf = $default_vhost_conf_no_ip
   }
 
-  ensure_resource('apache::vhost', $vhost_conf_name, merge ($default_vhost_conf, $extra_params, {
+  # MINNUS
+  ensure_resource('apache::vhost', $vhost_conf_name, merge ($default_vhost_conf, {
     redirectmatch_regexp => $root_url ? { '' => undef, '/' => undef, default => $redirect_match },
     redirectmatch_dest   => $root_url ? { '' => undef, '/' => undef, default => $redirect_url },
-  }))
+    }, $extra_params))
   ensure_resource('apache::vhost', $vhost_ssl_conf_name, merge ($default_vhost_conf, $extra_params, {
     access_log_file      => 'horizon_ssl_access.log',
     error_log_file       => 'horizon_ssl_error.log',
