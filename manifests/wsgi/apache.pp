@@ -264,10 +264,10 @@ class horizon::wsgi::apache (
     $redirectmatch_url_real = $root_url ? { '' => undef, '/' => undef, default => $redirect_url }
   }
 
-  ensure_resource('apache::vhost', $vhost_conf_name, merge ($default_vhost_conf, $extra_params, {
+  ensure_resource('apache::vhost', $vhost_conf_name, merge ($default_vhost_conf, {
     redirectmatch_regexp => $redirectmatch_regexp_real,
     redirectmatch_dest   => $redirectmatch_url_real,
-  }))
+  }, $extra_params))
   ensure_resource('apache::vhost', $vhost_ssl_conf_name, merge ($default_vhost_conf, $extra_params, {
     access_log_file      => 'horizon_ssl_access.log',
     error_log_file       => 'horizon_ssl_error.log',
